@@ -44,9 +44,19 @@ function operate(num1, num2, operator) {
 
 function clearDisplay() {
     display.textContent = "";
+    numberOne = "";
+    operator = "";
+    numberTwo = "";
 }
 
 function updateDisplay(input) {
-    display.textContent += input;
-    displayValue = parseInt(display.textContent);
+    if (!isNaN(input)) {
+        display.textContent += input;
+        displayValue = display.textContent;
+        if (operator === "") {
+            numberOne = displayValue;
+        } else {
+            numberTwo = displayValue;
+        }
+    }
 }

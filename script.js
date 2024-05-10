@@ -75,6 +75,7 @@ function clearDisplay() {
     numberOne = "";
     operator = "";
     numberTwo = "";
+    result = "";
 }
 
 function updateDisplay(input) {

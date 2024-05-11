@@ -8,8 +8,8 @@ const display = document.querySelector(".display");
 
 const clearBtn = document.querySelector(".clear-button");
 clearBtn.addEventListener("click", clearDisplay);
-const numberBtns = document.querySelectorAll(".number-button");
 
+const numberBtns = document.querySelectorAll(".number-button");
 for (let i = 0; i < numberBtns.length; i++) {
     const number = numberBtns[i].textContent;
     numberBtns[i].addEventListener("click", () => {
@@ -22,7 +22,6 @@ for (let i = 0; i < numberBtns.length; i++) {
 }
 
 const operatorBtns = document.querySelectorAll(".operator-button");
-
 for (let i = 0; i < operatorBtns.length; i++) {
     operatorBtns[i].addEventListener("click", () => {
         if (operator !== "") {
@@ -39,9 +38,22 @@ for (let i = 0; i < operatorBtns.length; i++) {
 }
 
 const equalsBtn = document.querySelector(".equals-button");
-
 equalsBtn.addEventListener("click", () => {
     updateDisplay("=");
+});
+
+const decimalBtn = document.querySelector(".decimal-button");
+decimalBtn.addEventListener("click", () => {
+    if (
+        !display.textContent.includes(".") ||
+        (operator !== "" && numberTwo === "")
+    ) {
+        if (operator === "") {
+            numberOne = updateDisplay(".");
+        } else {
+            numberTwo = updateDisplay(".");
+        }
+    }
 });
 
 function add(num1, num2) {
@@ -91,9 +103,12 @@ function clearDisplay() {
 
 function updateDisplay(input) {
     if (result !== "ERROR LOL") {
-        if (!isNaN(input)) {
+        if (!isNaN(input) || input === ".") {
             if (display.textContent.length < CALCULATOR_MAX_LENGTH) {
-                if (numberTwo === "" && operator !== "") {
+                if (
+                    input === "." ||
+                    (numberTwo === "" && operator !== "" && input !== ".")
+                ) {
                     display.textContent = input;
                 } else {
                     display.textContent += input;

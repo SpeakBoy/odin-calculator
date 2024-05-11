@@ -1,7 +1,7 @@
 let numberOne = "";
 let operator = "";
 let numberTwo = "";
-let result;
+let result = "";
 let displayValue;
 const CALCULATOR_MAX_LENGTH = 12;
 const display = document.querySelector(".display");
@@ -26,11 +26,19 @@ for (let i = 0; i < operatorBtns.length; i++) {
     operatorBtns[i].addEventListener("click", () => {
         if (operator !== "") {
             numberTwo = displayValue;
-            numberOne = String(
+            result = String(
                 operate(parseFloat(numberOne), parseFloat(numberTwo), operator)
             );
-            display.textContent = numberOne;
+            numberOne = result;
+            if (result.length > 12) {
+                result = parseFloat(result).toFixed(2);
+                if (result.length > 12) {
+                    result = parseFloat(result).toExponential(2);
+                }
+            }
+            display.textContent = result;
             numberTwo = "";
+            return result;
         }
         operator = operatorBtns[i].textContent;
         updateDisplay(operator);
@@ -39,19 +47,35 @@ for (let i = 0; i < operatorBtns.length; i++) {
 
 const equalsBtn = document.querySelector(".equals-button");
 equalsBtn.addEventListener("click", () => {
-    updateDisplay("=");
+    result = updateDisplay("=");
 });
 
 const decimalBtn = document.querySelector(".decimal-button");
 decimalBtn.addEventListener("click", () => {
-    if (
-        !display.textContent.includes(".") ||
-        (operator !== "" && numberTwo === "")
-    ) {
+    if (numberOne === result || (numberTwo === "" && operator !== "")) {
+        display.textContent = "0";
+        if (numberOne === "") {
+            numberOne = updateDisplay(".");
+        } else {
+            numberTwo = updateDisplay(".");
+        }
+    }
+    if (!display.textContent.includes(".")) {
         if (operator === "") {
             numberOne = updateDisplay(".");
         } else {
             numberTwo = updateDisplay(".");
+        }
+    }
+});
+
+const backSpaceBtn = document.querySelector(".backspace-button");
+backSpaceBtn.addEventListener("click", () => {
+    if (display.textContent !== "") {
+        if (operator === "") {
+            numberOne = updateDisplay("bs");
+        } else {
+            numberTwo = updateDisplay("bs");
         }
     }
 });
@@ -103,12 +127,17 @@ function clearDisplay() {
 
 function updateDisplay(input) {
     if (result !== "ERROR LOL") {
-        if (!isNaN(input) || input === ".") {
+        if (input === "bs") {
+            display.textContent = display.textContent.substring(
+                0,
+                display.textContent.length - 1
+            );
+
+            displayValue = display.textContent;
+            return displayValue;
+        } else if (!isNaN(input) || input === ".") {
             if (display.textContent.length < CALCULATOR_MAX_LENGTH) {
-                if (
-                    input === "." ||
-                    (numberTwo === "" && operator !== "" && input !== ".")
-                ) {
+                if (numberTwo === "" && operator !== "" && input !== ".") {
                     display.textContent = input;
                 } else {
                     display.textContent += input;
@@ -124,14 +153,15 @@ function updateDisplay(input) {
             );
             numberOne = result;
             if (result.length > 12) {
-                result = String(parseFloat(result).toFixed(2));
+                result = parseFloat(result).toFixed(2);
                 if (result.length > 12) {
-                    result = String(parseFloat(result).toExponential(2));
+                    result = parseFloat(result).toExponential(2);
                 }
             }
             display.textContent = result;
             operator = "";
             numberTwo = "";
+            return result;
         }
     }
 }

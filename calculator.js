@@ -1,6 +1,8 @@
-let leftOperand;
-let operator;
-let rightOperand;
+let leftOperand = "";
+let operator = "";
+let rightOperand = "";
+
+const display = document.querySelector("#display");
 
 function add(x, y) {
     return x + y;
@@ -30,3 +32,32 @@ function operate(leftOperand, operator, rightOperand) {
             return divide(leftOperand, rightOperand);
     }
 }
+
+function updateOperand(event)
+{
+    if (operator === "")
+    {
+        leftOperand += event.target.textContent;
+    }
+    else
+    {
+        rightOperand += event.target.textContent;
+    }
+}
+
+function updateDisplay(event)
+{
+    display.textContent += event.target.textContent;
+}
+
+function initNumberBtns()
+{
+    const numberBtns = document.querySelectorAll(".number");
+    for (const numberBtn of numberBtns)
+    {
+        numberBtn.addEventListener("click", (event) => updateOperand(event));
+        numberBtn.addEventListener("click", (event) => updateDisplay(event));
+    }
+}
+
+initNumberBtns();

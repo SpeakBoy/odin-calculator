@@ -46,6 +46,12 @@ function updateOperand(event)
     }
 }
 
+function updateOperator(event)
+{
+    operator = event.target.textContent;
+    rightOperand = "";
+}
+
 function updateDisplay(event)
 {
     if (operandSelected === "left")
@@ -77,4 +83,10 @@ function initOperatorBtns()
     }
 }
 
-initNumberBtns();
+function init()
+{
+    initNumberBtns();
+    initOperatorBtns();
+}
+
+init();

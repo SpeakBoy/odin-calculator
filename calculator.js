@@ -1,6 +1,7 @@
 let leftOperand;
 let operator;
 let rightOperand;
+let result;
 let operandSelected;
 
 const display = document.querySelector("#display");
@@ -34,15 +35,22 @@ function operate(leftOperand, operator, rightOperand) {
     }
 }
 
-function updateOperand(event)
+function updateOperand(number)
 {
     if (operandSelected === "left")
     {
-        leftOperand += event.target.textContent;
+        if (result !== "" && leftOperand !== "")
+        {
+            result = "";
+            leftOperand = "";
+        }
+        leftOperand += number;
+        updateDisplay(leftOperand);
     }
     else
     {
-        rightOperand += event.target.textContent;
+        rightOperand += number;
+        updateDisplay(rightOperand);
     }
 }
 
@@ -55,8 +63,10 @@ function updateOperator(event)
 
 function evaluate()
 {
-    const result = operate(+leftOperand, operator, +rightOperand);
-    display.textContent = result;
+    result = operate(+leftOperand, operator, +rightOperand);
+    operandSelected = "left";
+    leftOperand = "";
+    updateOperand(result);
 }
 
 function reset()
@@ -64,20 +74,14 @@ function reset()
     leftOperand = "";
     operator = "";
     rightOperand = "";
+    result = "";
     operandSelected = "left";
     display.textContent = "";
 }
 
-function updateDisplay(event)
+function updateDisplay(displayValue)
 {
-    if (operandSelected === "left")
-    {
-        display.textContent = leftOperand;
-    }
-    else
-    {
-        display.textContent = rightOperand;
-    }
+    display.textContent = displayValue;
 }
 
 function initNumberBtns()
@@ -85,8 +89,10 @@ function initNumberBtns()
     const numberBtns = document.querySelectorAll(".number");
     for (const numberBtn of numberBtns)
     {
-        numberBtn.addEventListener("click", (event) => updateOperand(event));
-        numberBtn.addEventListener("click", (event) => updateDisplay(event));
+        numberBtn.addEventListener("click", (event) => {
+            const number = event.target.textContent;
+            updateOperand(number);
+        });
     }
 }
 

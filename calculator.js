@@ -4,6 +4,7 @@ let rightOperand;
 let result;
 let operandSelected;
 
+const keyPresses = document.addEventListener("keydown", (event) => handleKeyPress(event));
 const display = document.querySelector("#display");
 
 function add(x, y) {
@@ -50,7 +51,7 @@ function updateOperand(operandValue)
         {
             return;
         }
-        if (operandValue === "Back")
+        if (operandValue === "Backspace")
         {
             leftOperand = leftOperand.length <= 1 ? "0" : leftOperand.slice(0, -1);
         }
@@ -75,7 +76,7 @@ function updateOperand(operandValue)
         {
             return;
         }
-        if (operandValue === "Back")
+        if (operandValue === "Backspace")
         {
             rightOperand = rightOperand.length <= 1 ? "0" : rightOperand.slice(0, -1);
         }
@@ -194,6 +195,39 @@ function initBackspaceBtn()
         const backspace = event.target.textContent;
         updateOperand(backspace);
     });
+}
+
+function handleKeyPress(event)
+{
+    const keyName = event.key;
+
+    switch (keyName)
+    {
+        case "0":
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+        case ".":
+        case "Backspace":
+            updateOperand(keyName);
+            break;
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+            updateOperator(keyName);
+            break;
+        case "=":
+        case "Enter":
+            evaluate();
+            break;
+    }
 }
 
 function init()

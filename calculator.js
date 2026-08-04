@@ -50,7 +50,22 @@ function updateOperand(operandValue)
         {
             return;
         }
-        leftOperand += operandValue;
+        if (operandValue === "Back")
+        {
+            leftOperand = leftOperand.length <= 1 ? "0" : leftOperand.slice(0, -1);
+        }
+        else
+        {
+            if (leftOperand[0] === "0")
+            {
+                leftOperand = operandValue;
+            }
+            else
+            {
+                leftOperand += operandValue;
+            }
+        }
+
         updateDisplay(leftOperand);
     }
     else
@@ -60,7 +75,21 @@ function updateOperand(operandValue)
         {
             return;
         }
-        rightOperand += operandValue;
+        if (operandValue === "Back")
+        {
+            rightOperand = rightOperand.length <= 1 ? "0" : rightOperand.slice(0, -1);
+        }
+        else
+        {
+            if (rightOperand === "0")
+            {
+                rightOperand = operandValue;
+            }
+            else
+            {
+                rightOperand += operandValue;
+            }
+        }
         updateDisplay(rightOperand);
     }
 }
@@ -158,6 +187,15 @@ function initDecimalBtn()
     });
 }
 
+function initBackspaceBtn()
+{
+    const backspaceBtn = document.querySelector("#backspace");
+    backspaceBtn.addEventListener("click", (event) => {
+        const backspace = event.target.textContent;
+        updateOperand(backspace);
+    });
+}
+
 function init()
 {
     reset();
@@ -166,6 +204,7 @@ function init()
     initEqualsBtn();
     initClearBtn();
     initDecimalBtn();
+    initBackspaceBtn();
 }
 
 init();

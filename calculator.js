@@ -1,6 +1,7 @@
 let leftOperand = "";
 let operator = "";
 let rightOperand = "";
+let operandSelected = "left";
 
 const display = document.querySelector("#display");
 
@@ -35,7 +36,7 @@ function operate(leftOperand, operator, rightOperand) {
 
 function updateOperand(event)
 {
-    if (operator === "")
+    if (operandSelected === "left")
     {
         leftOperand += event.target.textContent;
     }
@@ -47,7 +48,14 @@ function updateOperand(event)
 
 function updateDisplay(event)
 {
-    display.textContent += event.target.textContent;
+    if (operandSelected === "left")
+    {
+        display.textContent = leftOperand;
+    }
+    else
+    {
+        display.textContent = rightOperand;
+    }
 }
 
 function initNumberBtns()
@@ -57,6 +65,15 @@ function initNumberBtns()
     {
         numberBtn.addEventListener("click", (event) => updateOperand(event));
         numberBtn.addEventListener("click", (event) => updateDisplay(event));
+    }
+}
+
+function initOperatorBtns()
+{
+    const operatorBtns = document.querySelectorAll(".operator");
+    for (const operatorBtn of operatorBtns)
+    {
+        operatorBtn.addEventListener("click", (event) => updateOperator(event));
     }
 }
 

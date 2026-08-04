@@ -35,45 +35,62 @@ function operate(leftOperand, operator, rightOperand) {
     }
 }
 
-function updateOperand(number)
+function updateOperand(operandValue)
 {
     if (operandSelected === "left")
     {
-        if (result !== "" && leftOperand !== "")
+        if (result !== "" 
+            && leftOperand !== "")
         {
             result = "";
             leftOperand = "";
         }
-        leftOperand += number;
+        if (operandValue === "." 
+            && leftOperand.includes(operandValue))
+        {
+            return;
+        }
+        leftOperand += operandValue;
         updateDisplay(leftOperand);
     }
     else
     {
-        rightOperand += number;
+        if (operandValue === "." 
+            && rightOperand.includes(operandValue))
+        {
+            return;
+        }
+        rightOperand += operandValue;
         updateDisplay(rightOperand);
     }
 }
 
-function updateOperator(event)
+function updateOperator(operatorValue)
 {
-    if (rightOperand !== "")
+    if (operandSelected === "right" && rightOperand !== "")
     {
         evaluate();
     }
-    operator = event.target.textContent;
+    operator = operatorValue;
     rightOperand = "";
     operandSelected = "right";
 }
 
 function evaluate()
 {
-    if (leftOperand !== "" && operator != "" && rightOperand !== "")
+    if (operator === "")
     {
-        result = operate(+leftOperand, operator, +rightOperand);
-        operandSelected = "left";
-        leftOperand = "";
-        updateOperand(result);
+        operator = "+";
+        rightOperand = "0";
     }
+    else if (rightOperand === "")
+    {
+        rightOperand = leftOperand;
+    }
+    result = operate(+leftOperand, operator, +rightOperand);
+    operandSelected = "left";
+    leftOperand = "";
+    updateOperand(result);
 }
 
 function reset()
@@ -113,7 +130,10 @@ function initOperatorBtns()
     const operatorBtns = document.querySelectorAll(".operator");
     for (const operatorBtn of operatorBtns)
     {
-        operatorBtn.addEventListener("click", (event) => updateOperator(event));
+        operatorBtn.addEventListener("click", (event) => {
+            const operator = event.target.textContent;
+            updateOperator(operator);
+        });
     }
 }
 
@@ -129,6 +149,15 @@ function initClearBtn()
     clearBtn.addEventListener("click", reset);
 }
 
+function initDecimalBtn()
+{
+    const decimalBtn = document.querySelector("#decimal");
+    decimalBtn.addEventListener("click", (event) => {
+        const decimal = event.target.textContent;
+        updateOperand(decimal);
+    });
+}
+
 function init()
 {
     reset();
@@ -136,6 +165,7 @@ function init()
     initOperatorBtns();
     initEqualsBtn();
     initClearBtn();
+    initDecimalBtn();
 }
 
 init();

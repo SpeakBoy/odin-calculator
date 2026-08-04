@@ -4,6 +4,8 @@ let rightOperand;
 let result;
 let operandSelected;
 
+const DISPLAY_LENGTH_LIMIT = 10;
+
 const keyPresses = document.addEventListener("keydown", (event) => handleKeyPress(event));
 const display = document.querySelector("#display");
 
@@ -151,7 +153,15 @@ function resetDisplay()
 
 function updateDisplay(displayValue)
 {
-    display.textContent = displayValue;
+    console.log(displayValue.length);
+    if (displayValue.length > DISPLAY_LENGTH_LIMIT)
+    {
+        display.textContent = Number.parseFloat(displayValue).toExponential(DISPLAY_LENGTH_LIMIT - 1);
+    }
+    else
+    {
+        display.textContent = displayValue;
+    }
 }
 
 function initNumberBtns()

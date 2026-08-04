@@ -76,7 +76,12 @@ function reset()
     rightOperand = "";
     result = "";
     operandSelected = "left";
-    display.textContent = "";
+    resetDisplay();
+}
+
+function resetDisplay()
+{
+    display.textContent = "0";
 }
 
 function updateDisplay(displayValue)

@@ -35,6 +35,10 @@ body {
     flex-grow: 1;
 }
 
+#clear {
+    flex-grow: 3;
+}
+
 .buttons {
     flex-grow: 7;
     display: flex;

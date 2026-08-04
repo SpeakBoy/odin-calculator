@@ -50,6 +50,13 @@ function updateOperator(event)
 {
     operator = event.target.textContent;
     rightOperand = "";
+    operandSelected = "right";
+}
+
+function evaluate()
+{
+    const result = operate(+leftOperand, operator, +rightOperand);
+    display.textContent = result;
 }
 
 function updateDisplay(event)
@@ -83,10 +90,17 @@ function initOperatorBtns()
     }
 }
 
+function initEqualsBtn()
+{
+    const equalsBtn = document.querySelector("#equals");
+    equalsBtn.addEventListener("click", evaluate);
+}
+
 function init()
 {
     initNumberBtns();
     initOperatorBtns();
+    initEqualsBtn();
 }
 
 init();

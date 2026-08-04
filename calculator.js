@@ -56,6 +56,10 @@ function updateOperand(number)
 
 function updateOperator(event)
 {
+    if (rightOperand !== "")
+    {
+        evaluate();
+    }
     operator = event.target.textContent;
     rightOperand = "";
     operandSelected = "right";
@@ -63,10 +67,13 @@ function updateOperator(event)
 
 function evaluate()
 {
-    result = operate(+leftOperand, operator, +rightOperand);
-    operandSelected = "left";
-    leftOperand = "";
-    updateOperand(result);
+    if (leftOperand !== "" && operator != "" && rightOperand !== "")
+    {
+        result = operate(+leftOperand, operator, +rightOperand);
+        operandSelected = "left";
+        leftOperand = "";
+        updateOperand(result);
+    }
 }
 
 function reset()

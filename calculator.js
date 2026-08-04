@@ -32,6 +32,11 @@ function operate(leftOperand, operator, rightOperand) {
         case "*":
             return multiply(leftOperand, rightOperand);
         case "/":
+            if (rightOperand === 0)
+            {
+                alert("Nice try, but you can't divide by zero!\nResetting calculator...");
+                return "divide by zero";
+            }
             return divide(leftOperand, rightOperand);
     }
 }
@@ -118,6 +123,12 @@ function evaluate()
         rightOperand = leftOperand;
     }
     result = operate(+leftOperand, operator, +rightOperand);
+    if (result === "divide by zero")
+    {
+        reset();
+        alert("Calculator reset successfully!");
+        return;
+    }
     operandSelected = "left";
     leftOperand = "";
     updateOperand(result);

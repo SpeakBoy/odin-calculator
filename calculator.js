@@ -1,7 +1,7 @@
-let leftOperand = "";
-let operator = "";
-let rightOperand = "";
-let operandSelected = "left";
+let leftOperand;
+let operator;
+let rightOperand;
+let operandSelected;
 
 const display = document.querySelector("#display");
 
@@ -59,6 +59,15 @@ function evaluate()
     display.textContent = result;
 }
 
+function reset()
+{
+    leftOperand = "";
+    operator = "";
+    rightOperand = "";
+    operandSelected = "left";
+    display.textContent = "";
+}
+
 function updateDisplay(event)
 {
     if (operandSelected === "left")
@@ -96,11 +105,19 @@ function initEqualsBtn()
     equalsBtn.addEventListener("click", evaluate);
 }
 
+function initClearBtn()
+{
+    const clearBtn = document.querySelector("#clear");
+    clearBtn.addEventListener("click", reset);
+}
+
 function init()
 {
+    reset();
     initNumberBtns();
     initOperatorBtns();
     initEqualsBtn();
+    initClearBtn();
 }
 
 init();
